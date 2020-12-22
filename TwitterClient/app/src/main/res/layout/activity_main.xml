@@ -33,56 +33,14 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_above="@+id/footer"
+        android:layout_above="@+id/bot_nav"
         android:background="#424242"/>
-    
-    <LinearLayout
-        android:id="@+id/footer"
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bot_nav"
         android:layout_width="match_parent"
-        android:layout_height="36dip"
+        android:layout_height="wrap_content"
+        app:menu="@menu/botnav"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/create"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/search"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/home"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/reply"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/refresh"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:src="@drawable/move_vert"/>
-    </LinearLayout>
+        android:background="@color/White"/>
 </RelativeLayout>

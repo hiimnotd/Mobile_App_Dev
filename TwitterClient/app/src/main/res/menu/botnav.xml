@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/bot_create"
-        android:title="create_tweet"
-        android:icon="@drawable/create"/>
+        android:title="Tweet"
+        android:icon="@drawable/create"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/bot_search"
-        android:title="search_tweeet"
-        android:icon="@drawable/search"/>
+        android:title="Search"
+        android:icon="@drawable/search"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/bot_home"
-        android:title="home"
-        android:icon="@drawable/home"/>
+        android:title="Home"
+        android:icon="@drawable/home"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/bot_reply"
-        android:title="reply"
-        android:icon="@drawable/reply"/>
+        android:title="Reply"
+        android:icon="@drawable/reply"
+        app:showAsAction="always"/>
 
     <item
-        android:id="@+id/setting"
-        android:title="setting"
-        android:icon="@drawable/move_vert"/>
+        android:id="@+id/bot_refresh"
+        android:title="Refresh"
+        android:icon="@drawable/refresh"
+        app:showAsAction="always"/>
+
+<!--    <item-->
+<!--        android:id="@+id/account"-->
+<!--        android:title="Accounts"-->
+<!--        app:showAsAction="ifRoom"/>-->
+
+<!--    <item-->
+<!--        android:id="@+id/config"-->
+<!--        android:title="Config"-->
+<!--        app:showAsAction="ifRoom"/>-->
 </menu>

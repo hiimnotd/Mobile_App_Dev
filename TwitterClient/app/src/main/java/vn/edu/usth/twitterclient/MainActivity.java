@@ -1,5 +1,6 @@
 package vn.edu.usth.twitterclient;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,20 +9,31 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        bottomNavigationView = findViewById(R.id.bot_nav);
+
+//        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Timeline());
+
 
         PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -30,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
         PagerSlidingTabStrip tabStrip = findViewById(R.id.tab);
         tabStrip.setViewPager(pager);
     }
+
+//    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
+//            BottomNavigationView.OnNavigationItemSelectedListener() {
+//                @Override
+//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//                    Fragment fragment = null;
+//
+//                    switch (item.getItemId()){
+//                        case R.id.bot_search:
+//                            fragment = new Search();
+//                            break;
+//                        case R.id.bot_home:
+//                            fragment = new Timeline();
+//                            break;
+//                    }
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+//
+//                    return true;
+//                }
+//            };
 
     public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         private final int PAGE_COUNT = 8 ;
