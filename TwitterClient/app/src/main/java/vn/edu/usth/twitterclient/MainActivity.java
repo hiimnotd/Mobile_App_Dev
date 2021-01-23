@@ -1,6 +1,7 @@
 package vn.edu.usth.twitterclient;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,32 +9,44 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private BottomNavigationView bottomNavigationView;
+
+    FirebaseAuth Auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1DA1F2")));
+        
         bottomNavigationView = findViewById(R.id.bot_nav);
 
 //        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Timeline());
 
+        Auth = FirebaseAuth.getInstance();
 
         PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -43,7 +56,26 @@ public class MainActivity extends AppCompatActivity {
         tabStrip.setViewPager(pager);
     }
 
-//    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
+    private void checkUserStatus(){
+        FirebaseUser user = Auth.getCurrentUser();
+
+        if (user == null){
+            startActivity(new Intent(MainActivity.this, HomePage.class));
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        checkUserStatus();
+        super.onStart();
+    }
+
+//    public void imageClick(View view) {
+//        startActivity(new Intent(MainActivity.this, FullsizeImage.class));
+//    }
+
+    //    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
 //            BottomNavigationView.OnNavigationItemSelectedListener() {
 //                @Override
 //                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -63,6 +95,22 @@ public class MainActivity extends AppCompatActivity {
 //                    return true;
 //                }
 //            };
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.log_out){
+            Auth.signOut();
+            checkUserStatus();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         private final int PAGE_COUNT = 8 ;
