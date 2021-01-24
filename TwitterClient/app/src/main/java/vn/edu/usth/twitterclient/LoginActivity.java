@@ -4,17 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,22 +80,76 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        ForgotPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                RecoverPasswordDiaglog();
-//            }
-//        });
+        ForgotPassword = findViewById(R.id.forgotPassword);
+
+        ForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecoverPasswordDiaglog();
+            }
+        });
 
         pd = new ProgressDialog(this);
-        pd.setMessage("Logging In...");
     }
 
-//    private void RecoverPasswordDiaglog() {
-//
-//    }
+    private void RecoverPasswordDiaglog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Recover Password");
+
+        LinearLayout linearLayout = new LinearLayout(this);
+        final EditText emailForgot = new EditText(this);
+        emailForgot.setHint("Email");
+        emailForgot.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        emailForgot.setMinEms(16);
+
+        linearLayout.addView(emailForgot);
+        linearLayout.setPadding(10,10,10,10);
+
+        builder.setView(linearLayout);
+
+        builder.setPositiveButton(  "Recover", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = emailForgot.getText().toString().trim();
+                recover(email);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void recover(String email) {
+        pd.setMessage("Recovering...");
+        pd.show();
+        Auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        pd.dismiss();
+                        if (task.isSuccessful()){
+                            Toast.makeText(LoginActivity.this, "Sent a mail to your email.",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(LoginActivity.this, "Failed",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void loginUser(String email, String password){
+        pd.setMessage("Logging In...");
         pd.show();
         Auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){

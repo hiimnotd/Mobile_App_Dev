@@ -2,6 +2,7 @@ package vn.edu.usth.twitterclient;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,8 +43,14 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1DA1F2")));
-        
-        bottomNavigationView = findViewById(R.id.bot_nav);
+        actionBar.setTitle("");
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setLogo(R.drawable.small_twitter);
+        actionBar.setDisplayUseLogoEnabled(true);
+
+
+
+//        bottomNavigationView = findViewById(R.id.bot_nav);
 
 //        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
 //        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Timeline());

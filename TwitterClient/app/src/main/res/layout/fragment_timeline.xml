@@ -139,8 +139,6 @@
                     android:layout_below="@id/tweet2_content"
                     android:layout_width="400px"
                     android:layout_height="400px"
-                    android:clickable="true"
-                    android:onClick="imgClick"
                     android:adjustViewBounds="true"
                     android:src="@drawable/top1hltv"/>
 
