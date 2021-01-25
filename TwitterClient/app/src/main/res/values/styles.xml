@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <dimen name="normal_text">14sp</dimen>
+    <dimen name="normal_text">16sp</dimen>
     <dimen name="trend_text">16sp</dimen>
     <dimen name="normal_padding">10dp</dimen>
 </resources>

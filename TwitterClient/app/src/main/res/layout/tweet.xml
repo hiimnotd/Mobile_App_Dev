@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+
+    <LinearLayout
+        android:id="@+id/tweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/small_ava"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="40dp">
+            <ImageView
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:src="@drawable/sample_avatar"/>
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/smaill_ava"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:id="@+id/FullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@color/Black"/>
+
+            <TextView
+                android:id="@+id/TimeTweet"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@color/Grey"/>
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/FullName"
+                android:text="Username"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@color/Grey"/>
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_below="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Content"
+                android:textSize="@dimen/normal_text"
+                android:textColor="@color/Black"/>
+
+            <ImageView
+                android:id="@+id/LikeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/content"
+                android:src="@drawable/like"/>
+
+            <TextView
+                android:id="@+id/LikeNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/LikeIcon"
+                android:layout_below="@+id/content"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="likes"
+                android:textColor="@color/Black"
+                android:textSize="@dimen/normal_text"
+                android:layout_toRightOf="@+id/LikeNumber"
+                android:layout_below="@+id/content"
+                android:layout_marginLeft="5dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -21,18 +21,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 public class Profile extends Fragment {
     Button editProfile;
 
     ImageView avatarView;
-    TextView nameView, locationView, descriptionView, userLinkView;
+    TextView nameView, locationView, descriptionView, userLinkView, usernameView;
 
     FirebaseAuth Auth;
     FirebaseUser user;
-    FirebaseDatabase database;
-    DatabaseReference reference;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseStorage storage;
 
     public static Profile newInstance() {
         Profile fragment = new Profile();
@@ -55,17 +57,18 @@ public class Profile extends Fragment {
         Auth = FirebaseAuth.getInstance();
         user = Auth.getCurrentUser();
 
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("Users");
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Users");
 
         avatarView = view.findViewById(R.id.AvatarImage);
         nameView = view.findViewById(R.id.full_name);
         descriptionView = view.findViewById(R.id.description);
         locationView = view.findViewById(R.id.location);
         userLinkView = view.findViewById(R.id.url);
+        usernameView = view.findViewById(R.id.username);
 
         if (user != null) {
-            Query query = reference.orderByChild("email").equalTo(user.getEmail());
+            Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
             query.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,11 +79,13 @@ public class Profile extends Fragment {
                         String location = "" + ds.child("location").getValue();
                         String userLink = "" + ds.child("url").getValue();
                         String avatar = "" + ds.child("image").getValue();
+                        String username = "" + ds.child("username").getValue();
 
                         nameView.setText(name);
                         descriptionView.setText(description);
                         locationView.setText(location);
                         userLinkView.setText(userLink);
+                        usernameView.setText(username);
                         try{
                              Picasso.get().load(avatar).into(avatarView);
                         }

@@ -177,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
                                 hashMap.put("location", "");
                                 hashMap.put("image", "");
                                 hashMap.put("url", "");
+                                hashMap.put("username", "");
 
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 

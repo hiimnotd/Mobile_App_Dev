@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +20,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Timeline extends Fragment {
     LinearLayout Reaction;
     Boolean likedCheck = false;
 
-    ImageView replyIcon, likeIcon;
-    TextView replyText, likeText;
+    RecyclerView recyclerView;
+    AdapterTweets adapterTweets;
+    List<ModelTweets> modelTweetsList;
 
     public static Timeline newInstance() {
         Timeline fragment = new Timeline();
@@ -35,94 +50,52 @@ public class Timeline extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        ImageView img = view.findViewById(R.id.tweet2_img);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), FullsizeImage.class));
-            }
-        });
+        recyclerView = view.findViewById(R.id.tweetRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Reaction = view.findViewById(R.id.tweet1);
-        Reaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                React();
-            }
-        });
+        modelTweetsList = new ArrayList<>();
+
+        getAllTweets();
+
+//        Reaction = view.findViewById(R.id.tweet1);
+//        Reaction.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                React();
+//            }
+//        });
         return view;
     }
 
-    private void React() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Reaction");
+    private void getAllTweets() {
+        final FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        LinearLayout linearLayout = new LinearLayout(getActivity());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(50,50,50,50);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
 
-
-        replyIcon = new ImageView(getActivity());
-        replyIcon.setImageDrawable(getResources().getDrawable(R.drawable.reply));
-        replyIcon.setId(R.id.ReplyIcon);
-
-        replyText = new TextView(getActivity());
-        replyText.setText("Reply");
-        replyText.setTextColor(Color.BLACK);
-        replyText.setTextSize(20);
-        replyText.setPadding(50,0,0,0);
-        replyText.setId(R.id.reply);
-
-        LinearLayout replyView = new LinearLayout(getActivity());
-        replyView.setOrientation(LinearLayout.HORIZONTAL);
-        replyView.setPadding(0,30,0,0);
-        replyView.addView(replyIcon);
-        replyView.addView(replyText);
-
-        likeIcon = new ImageView(getActivity());
-        likeIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
-        
-        likeText = new TextView(getActivity());
-        likeText.setText("Like");
-        likeText.setTextColor(Color.BLACK);
-        likeText.setTextSize(20);
-        likeText.setPadding(50,0,0,0);
-        likeText.setId(R.id.like);
-
-        LinearLayout likeView = new LinearLayout(getActivity());
-        likeView.setOrientation(LinearLayout.HORIZONTAL);
-        likeView.addView(likeIcon);
-        likeView.addView(likeText);
-
-        likeView.setOnClickListener(new View.OnClickListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                like();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                modelTweetsList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    ModelTweets modelTweets = ds.getValue(ModelTweets.class);
+
+//                    if (modelTweets.getUid().equals(fUser.getUid())){
+//                        modelTweetsList.add(modelTweets);
+//                    }
+                    modelTweetsList.add(modelTweets);
+
+                    adapterTweets = new AdapterTweets(getActivity(), modelTweetsList);
+
+                    recyclerView.setAdapter(adapterTweets);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
-        if (likedCheck == true){
-            likeIcon.setImageDrawable(getResources().getDrawable(R.drawable.like_red));
-            likeText.setText("Unlike");
-        }
-
-        linearLayout.addView(likeView);
-        linearLayout.addView(replyView);
-
-        builder.setView(linearLayout);
-
-        builder.create().show();
-    }
-
-    private void like() {
-        if (likedCheck == false){
-            likedCheck = true;
-            likeIcon.setImageDrawable(getResources().getDrawable(R.drawable.like_red));
-            likeText.setText("Unlike");
-        }else{
-            likedCheck = false;
-            likeIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
-            likeText.setText("Like");
-        }
     }
 }

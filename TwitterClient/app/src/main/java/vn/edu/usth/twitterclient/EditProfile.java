@@ -26,6 +26,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -44,11 +49,13 @@ public class EditProfile extends AppCompatActivity {
     Button saveProfile;
 
     ImageView avatarView;
-    EditText nameView, locationView, descriptionView, userLinkView;
+    EditText nameView, locationView, descriptionView, userLinkView, usernameView;
 
     FirebaseAuth Auth;
     FirebaseDatabase database;
     DatabaseReference reference;
+    StorageReference storageReference;
+    String storagePath = "User_Profiles_Avatar_Imgs/";
     String uid, email;
 
     private static final int CAMER_REQUEST_CODE = 100;
@@ -90,6 +97,7 @@ public class EditProfile extends AppCompatActivity {
         locationView = findViewById(R.id.location);
         descriptionView = findViewById(R.id.description);
         userLinkView = findViewById(R.id.url);
+        usernameView = findViewById(R.id.username);
 
         if (user != null) {
             Query query = reference.orderByChild("email").equalTo(user.getEmail());
@@ -103,11 +111,13 @@ public class EditProfile extends AppCompatActivity {
                         String location = "" + ds.child("location").getValue();
                         String userLink = "" + ds.child("url").getValue();
                         String avatar = "" + ds.child("image").getValue();
+                        String username = "" + ds.child("username").getValue();
 
                         nameView.setText(name);
                         descriptionView.setText(description);
                         locationView.setText(location);
                         userLinkView.setText(userLink);
+                        usernameView.setText(username);
                         try{
                             Picasso.get().load(avatar).into(avatarView);
                         }
@@ -150,6 +160,7 @@ public class EditProfile extends AppCompatActivity {
         String description = descriptionView.getText().toString().trim();
         String location = locationView.getText().toString().trim();
         String userLink = userLinkView.getText().toString().trim();
+        String username = usernameView.getText().toString().trim();
 
         HashMap<Object, String> hashMap = new HashMap<>();
         //Store infor
@@ -160,6 +171,7 @@ public class EditProfile extends AppCompatActivity {
         hashMap.put("location",location);
         hashMap.put("image", "");
         hashMap.put("url", userLink);
+        hashMap.put("username", username);
 
         reference.child(uid).setValue(hashMap);
     }
@@ -312,7 +324,7 @@ public class EditProfile extends AppCompatActivity {
             if(requestCode == IMAGE_PICK_GALLERY_CODE){
                 //image is picked from gallery, get uri of image
                 image_rui = data.getData();
-                //set to image view
+
                 avatarView.setImageURI(image_rui);
             }
             else if(requestCode == IMAGE_PICK_CAMERA_CODE){
@@ -322,4 +334,45 @@ public class EditProfile extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+//    private void uploadPhoto(Uri image_rui) {
+//        String filePathAndName = storagePath + "" + uid;
+//
+//        StorageReference storageReference1 = storageReference.child(filePathAndName);
+//        storageReference1.putFile(image_rui)
+//                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                        Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+//                        while (!uriTask.isSuccessful());
+//                        Uri downloadUri = uriTask.getResult();
+//
+//                        if (uriTask.isSuccessful()){
+//                            HashMap<String, Object> results = new HashMap<>();
+//                            results.put("image", downloadUri.toString());
+//
+//                            reference.child(uid).updateChildren(results)
+//                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                        @Override
+//                                        public void onSuccess(Void aVoid) {
+//                                            Toast.makeText(EditProfile.this, "Image Updated...", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Toast.makeText(EditProfile.this, "Error Updating Image...", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }else{
+//                            Toast.makeText(EditProfile.this,"Some error occured", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(EditProfile.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+//    }
 }

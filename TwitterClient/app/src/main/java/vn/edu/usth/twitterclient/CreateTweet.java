@@ -70,7 +70,7 @@ public class CreateTweet extends AppCompatActivity {
     Button uploadBtn;
 
     //user info
-    String name, email, uid, dp;
+    String name, email, uid, dp, username;
 
     //image picked will be samed in this uri
     Uri image_rui = null;
@@ -110,6 +110,7 @@ public class CreateTweet extends AppCompatActivity {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     name = ""+ ds.child("name").getValue();
                     email = ""+ ds.child("email").getValue();
+                    username = "" + ds.child("username").getValue();
                     dp = ""+ ds.child("image").getValue();
                 }
             }
@@ -160,6 +161,8 @@ public class CreateTweet extends AppCompatActivity {
                     //post with image
                     uploadData(title, description, String.valueOf(image_rui));
                 }
+
+                finish();
             }
         });
     }
@@ -193,12 +196,14 @@ public class CreateTweet extends AppCompatActivity {
                                 hashMap.put("uid",uid);
                                 hashMap.put("uName",name);
                                 hashMap.put("uEmail",email);
+                                hashMap.put("userName", username);
                                 hashMap.put("uDp",dp);
                                 hashMap.put("pId",timeStamp);
                                 hashMap.put("pTitle",title);
                                 hashMap.put("pDescription",description);
                                 hashMap.put("pImage",downloadUri);
                                 hashMap.put("pTime",timeStamp);
+                                hashMap.put("num_like", "0");
 
                                 //path to store post data
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -245,12 +250,14 @@ public class CreateTweet extends AppCompatActivity {
             hashMap.put("uid",uid);
             hashMap.put("uName",name);
             hashMap.put("uEmail",email);
+            hashMap.put("userName", username);
             hashMap.put("uDp",dp);
             hashMap.put("pId",timeStamp);
             hashMap.put("pTitle",title);
             hashMap.put("pDescription",description);
             hashMap.put("pImage","noImage");
             hashMap.put("pTime",timeStamp);
+            hashMap.put("num_like", "0");
 
             //path to store post data
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
