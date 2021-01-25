@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="reply" type="id"/>
+    <item name="like" type="id"/>
+    <item name="ReplyIcon" type="id"/>
+    <item name="LikeIcon" type="id"/>
+</resources>

@@ -14,23 +14,37 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"/>
 
-    <Button
-        android:id="@+id/login"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:textColor="@color/White"
-        android:background="@color/TwitColor"
+        android:layout_marginBottom="160dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="160dp" />
+        app:cardCornerRadius="30dp">
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:background="@color/TwitColor" />
+    </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/register"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textColor="@color/White"
-        android:background="@color/TwitColor"
         android:layout_marginBottom="100dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="30dp">
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:background="@color/TwitColor" />
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

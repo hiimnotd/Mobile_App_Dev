@@ -46,22 +46,30 @@
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/login"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/loginView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordInp"
-        android:text="Login"
-        android:textColor="@color/White"
         android:layout_centerHorizontal="true"
-        android:background="@color/TwitColor"/>
+        app:cardCornerRadius="30dp">
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/passwordInp"
+            android:text="Login"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:background="@color/TwitColor"/>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/forgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password? Click here."
-        android:layout_below="@+id/login"
+        android:layout_below="@+id/loginView"
         android:layout_centerHorizontal="true"
         android:textSize="16sp"
         android:layout_marginTop="20dp"

@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,6 +26,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,9 +34,8 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView bottomNavigationView;
-
     FirebaseAuth Auth;
+    FloatingActionButton createTweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +49,15 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.small_twitter);
         actionBar.setDisplayUseLogoEnabled(true);
 
-
-
-//        bottomNavigationView = findViewById(R.id.bot_nav);
-
-//        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Timeline());
-
         Auth = FirebaseAuth.getInstance();
+
+        createTweet = findViewById(R.id.CreateTweet);
+        createTweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CreateTweet.class));
+            }
+        });
 
         PagerAdapter adapter = new HomeFragmentPagerAdapter(getSupportFragmentManager());
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         if (user == null){
             startActivity(new Intent(MainActivity.this, HomePage.class));
         }
-
     }
 
     @Override
@@ -79,32 +80,6 @@ public class MainActivity extends AppCompatActivity {
         checkUserStatus();
         super.onStart();
     }
-
-//    public void imageClick(View view) {
-//        startActivity(new Intent(MainActivity.this, FullsizeImage.class));
-//    }
-
-    //    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
-//            BottomNavigationView.OnNavigationItemSelectedListener() {
-//                @Override
-//                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                    Fragment fragment = null;
-//
-//                    switch (item.getItemId()){
-//                        case R.id.bot_search:
-//                            fragment = new Search();
-//                            break;
-//                        case R.id.bot_home:
-//                            fragment = new Timeline();
-//                            break;
-//                    }
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-//
-//                    return true;
-//                }
-//            };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.log_out){
+            Toast.makeText(MainActivity.this, "Logging Out...", Toast.LENGTH_SHORT).show();
             Auth.signOut();
             checkUserStatus();
         }

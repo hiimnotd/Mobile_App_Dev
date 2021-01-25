@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Profile">
+    tools:context=".Profile"
+    android:padding="10dp">
     
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
@@ -13,6 +14,7 @@
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="100dp">
         <ImageView
+            android:id="@+id/AvatarImage"
             android:layout_width="400px"
             android:layout_height="400px"
             android:src="@drawable/sample_avatar"/>
@@ -24,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/avatar"
         android:layout_centerHorizontal="true"
-        android:text="Oleksandr Kostyliev"
         android:textColor="@color/Black"
         android:textSize="@dimen/normal_text"/>
 
@@ -45,7 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
         android:layout_centerHorizontal="true"
-        android:text="Ez #1 HLTV 2020"
         android:textColor="@color/Black"
         android:textSize="@dimen/normal_text"/>
 
@@ -56,13 +56,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
         android:layout_centerHorizontal="true"
-        android:text="Ukraine"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/normal_text"/>
+
+    <TextView
+        android:id="@+id/url"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/location"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/Black"
         android:textSize="@dimen/normal_text"/>
 
     <TableRow
         android:id="@+id/follow"
-        android:layout_below="@+id/location"
+        android:layout_below="@+id/url"
         android:layout_margin="@dimen/normal_padding"
         android:background="@android:color/black"
         android:layout_width="match_parent"
@@ -184,21 +193,20 @@
         android:text="since: Jan 01,2020 0:00AM"
         android:textColor="#C4C4C4"
         android:textSize="@dimen/normal_text"/>
-    
-    <Button
-        android:id="@+id/edit_profile"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/normal_padding"
         android:layout_below="@+id/time"
-        android:text="EDIT PROFILE"/>
-
-    <Button
-        android:id="@+id/other"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/normal_padding"
-        android:layout_below="@+id/edit_profile"
-        android:text="OTHER..."/>
-
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="30dp">
+        <Button
+            android:id="@+id/edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EDIT PROFILE"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:background="@color/TwitColor"/>
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>

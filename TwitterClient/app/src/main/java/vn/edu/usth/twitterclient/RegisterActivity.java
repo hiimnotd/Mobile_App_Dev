@@ -22,6 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -100,6 +104,26 @@ public class RegisterActivity extends AppCompatActivity {
 
                             pd.dismiss();
 
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+                            //Stroe data user in firebase realtime database by using HashMap
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            //Store infor
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", "");
+                            hashMap.put("description", "");
+                            hashMap.put("location", "");
+                            hashMap.put("image", "");
+                            hashMap.put("url", "");
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                            DatabaseReference reference = database.getReference("Users");
+
+                            reference.child(uid).setValue(hashMap);
+
+                            Toast.makeText(RegisterActivity.this,"Registering...\n"+email, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{
