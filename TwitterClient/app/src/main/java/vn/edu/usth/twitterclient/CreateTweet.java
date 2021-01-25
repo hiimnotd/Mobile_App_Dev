@@ -204,6 +204,7 @@ public class CreateTweet extends AppCompatActivity {
                                 hashMap.put("pImage",downloadUri);
                                 hashMap.put("pTime",timeStamp);
                                 hashMap.put("num_like", "0");
+                                hashMap.put("liked_status", "0");
 
                                 //path to store post data
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
@@ -258,6 +259,7 @@ public class CreateTweet extends AppCompatActivity {
             hashMap.put("pImage","noImage");
             hashMap.put("pTime",timeStamp);
             hashMap.put("num_like", "0");
+            hashMap.put("liked_status", "0");
 
             //path to store post data
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");

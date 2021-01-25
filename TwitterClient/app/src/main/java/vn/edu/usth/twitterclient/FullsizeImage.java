@@ -3,6 +3,8 @@ package vn.edu.usth.twitterclient;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,7 +31,13 @@ public class FullsizeImage extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         img = findViewById(R.id.fullsizeImage);
-        img.setImageResource(R.drawable.top1hltv);
+
+        if(getIntent().hasExtra("byteArray")) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(
+                    getIntent().getByteArrayExtra("byteArray"),0,getIntent().getByteArrayExtra("byteArray").length);
+            img.setImageBitmap(bitmap);
+        }
+
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
     }
 

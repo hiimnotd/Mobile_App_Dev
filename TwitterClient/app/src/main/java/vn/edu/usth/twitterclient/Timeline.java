@@ -33,9 +33,6 @@ import java.util.List;
 
 
 public class Timeline extends Fragment {
-    LinearLayout Reaction;
-    Boolean likedCheck = false;
-
     RecyclerView recyclerView;
     AdapterTweets adapterTweets;
     List<ModelTweets> modelTweetsList;
@@ -58,13 +55,6 @@ public class Timeline extends Fragment {
 
         getAllTweets();
 
-//        Reaction = view.findViewById(R.id.tweet1);
-//        Reaction.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                React();
-//            }
-//        });
         return view;
     }
 
@@ -80,9 +70,6 @@ public class Timeline extends Fragment {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     ModelTweets modelTweets = ds.getValue(ModelTweets.class);
 
-//                    if (modelTweets.getUid().equals(fUser.getUid())){
-//                        modelTweetsList.add(modelTweets);
-//                    }
                     modelTweetsList.add(modelTweets);
 
                     adapterTweets = new AdapterTweets(getActivity(), modelTweetsList);

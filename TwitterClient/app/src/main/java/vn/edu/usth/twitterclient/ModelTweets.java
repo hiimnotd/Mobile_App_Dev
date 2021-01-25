@@ -1,16 +1,17 @@
 package vn.edu.usth.twitterclient;
 
 public class ModelTweets {
-    String uName, userName, pDescription, pTime, uid;
+    String uName, userName, pDescription, pTime, like_status, uid;
 
     public ModelTweets(){
     }
 
-    public ModelTweets(String uName, String userName, String pDescription, String pTime, String uid) {
+    public ModelTweets(String uName, String userName, String pDescription, String pTime, String like_status, String uid) {
         this.uName = uName;
         this.userName = userName;
         this.pDescription = pDescription;
         this.pTime = pTime;
+        this.like_status = like_status;
         this.uid = uid;
     }
 
@@ -44,6 +45,14 @@ public class ModelTweets {
 
     public void setpTime(String pTime) {
         this.pTime = pTime;
+    }
+
+    public String getLike_status() {
+        return like_status;
+    }
+
+    public void setLike_status(String like_status) {
+        this.like_status = like_status;
     }
 
     public String getUid() {

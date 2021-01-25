@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -25,7 +27,9 @@ public class AdapterTweets extends RecyclerView.Adapter<AdapterTweets.MyHolder>{
     ImageView replyIcon, likeIcon;
     TextView replyText, likeText;
 
-    Boolean likedCheck = false;
+    String likedCheck;
+    ImageView img;
+    TextView likeStatus;
 
     public AdapterTweets(Context context, List<ModelTweets> tweetsList) {
         this.context = context;
@@ -36,6 +40,8 @@ public class AdapterTweets extends RecyclerView.Adapter<AdapterTweets.MyHolder>{
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.tweet, viewGroup, false);
+        img = view.findViewById(R.id.TweetLikeIcon);
+        likeStatus = view.findViewById(R.id.LikeStatus);
 
         return new MyHolder(view);
     }
@@ -46,6 +52,7 @@ public class AdapterTweets extends RecyclerView.Adapter<AdapterTweets.MyHolder>{
         String name = tweetsList.get(i).getuName();
         String content = tweetsList.get(i).getpDescription();
         String time = tweetsList.get(i).getpTime();
+        likedCheck = tweetsList.get(i).getLike_status();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(Long.parseLong(time));
@@ -115,9 +122,11 @@ public class AdapterTweets extends RecyclerView.Adapter<AdapterTweets.MyHolder>{
             }
         });
 
-        if (likedCheck == true){
+        if (likedCheck == "1"){
+            img.setImageDrawable(context.getResources().getDrawable(R.drawable.like_red));
             likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_red));
             likeText.setText("Unlike");
+            likeStatus.setText("Liked");
         }
 
         linearLayout.addView(likeView);
@@ -129,14 +138,18 @@ public class AdapterTweets extends RecyclerView.Adapter<AdapterTweets.MyHolder>{
     }
 
     private void like() {
-        if (likedCheck == false){
-            likedCheck = true;
+        if (likedCheck == "0"){
+            likedCheck = "1";
+            img.setImageDrawable(context.getResources().getDrawable(R.drawable.like_red));
             likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like_red));
             likeText.setText("Unlike");
+            likeStatus.setText("Liked");
         }else{
-            likedCheck = false;
+            likedCheck = "0";
+            img.setImageDrawable(context.getResources().getDrawable(R.drawable.like));
             likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.like));
             likeText.setText("Like");
+            likeStatus.setText("Like");
         }
     }
 

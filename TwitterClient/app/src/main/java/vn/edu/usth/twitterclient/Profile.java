@@ -1,6 +1,9 @@
 package vn.edu.usth.twitterclient;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+
 public class Profile extends Fragment {
     Button editProfile;
 
@@ -42,7 +47,7 @@ public class Profile extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
@@ -92,6 +97,18 @@ public class Profile extends Fragment {
                         catch (Exception e){
                             Picasso.get().load(R.drawable.sample_avatar).into(avatarView);
                         }
+                        
+                        avatarView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), FullsizeImage.class);
+                                Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.sample_avatar);
+                                ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+                                intent.putExtra("byteArray", bs.toByteArray());
+                                startActivity(intent);
+                            }
+                        });
                     }
                 }
 
@@ -104,12 +121,4 @@ public class Profile extends Fragment {
         return view;
     }
 
-    private void checkUserStatus(){
-        FirebaseUser user = Auth.getCurrentUser();
-
-        if (user == null){
-            startActivity(new Intent(getActivity(), HomePage.class));
-        }
-
-    }
 }

@@ -65,27 +65,20 @@
                 android:textColor="@color/Black"/>
 
             <ImageView
-                android:id="@+id/LikeIcon"
+                android:id="@+id/TweetLikeIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/content"
                 android:src="@drawable/like"/>
 
             <TextView
-                android:id="@+id/LikeNumber"
+                android:id="@+id/LikeStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/LikeIcon"
-                android:layout_below="@+id/content"
-                android:layout_marginLeft="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="likes"
+                android:text="like"
                 android:textColor="@color/Black"
                 android:textSize="@dimen/normal_text"
-                android:layout_toRightOf="@+id/LikeNumber"
+                android:layout_toRightOf="@+id/TweetLikeIcon"
                 android:layout_below="@+id/content"
                 android:layout_marginLeft="5dp"/>
         </RelativeLayout>
